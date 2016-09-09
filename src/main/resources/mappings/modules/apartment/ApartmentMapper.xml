@@ -1,0 +1,595 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.etnlgravtnl.modules.dao.apartment.ApartmentDao" >
+	<select id="queryCommunity" resultType="map">
+	select comm_id, comm_name, comm_address,
+	comm_desc, create_time, flag_delete
+	from community 
+	where flag_delete = 0
+	<if test="comm_name != null and comm_name != ''">
+	and comm_name like CONCAT('%', #{comm_name}, '%')
+	</if>
+	<if test="comm_address != null and comm_address != ''">
+	and comm_address like CONCAT('%', #{comm_address}, '%')
+	</if>
+	order by comm_id desc
+	limit #{start}, #{length}
+	</select>
+	
+	<select id="queryCommunityCnt" resultType="int">
+	select count(*)
+	from community 
+	where flag_delete = 0
+	<if test="comm_name != null and comm_name != ''">
+	and comm_name like CONCAT('%', #{comm_name}, '%')
+	</if>
+	<if test="comm_address != null and comm_address != ''">
+	and comm_address like CONCAT('%', #{comm_address}, '%')
+	</if>
+	order by comm_id desc
+	</select>
+	
+	<insert id="addCommunity">
+	insert into community (comm_name, comm_address, comm_desc, create_time, flag_delete) values 
+	(#{comm_name}, #{comm_address}, #{comm_desc}, #{create_time}, 0)
+	</insert>
+	
+	<select id="getCommunity" resultType="map">
+	select comm_id, comm_name, comm_address, comm_desc, create_time, flag_delete
+	from community 
+	where comm_id = #{comm_id}
+	</select>
+	
+	<update id="updCommunity">
+	update community set comm_name = #{comm_name}, comm_address = #{comm_address}, comm_desc = #{comm_desc}
+	where comm_id = #{comm_id}
+	</update>
+	
+	<update id="delCommunity">
+	update community set flag_delete = 1
+	where comm_id = #{comm_id}
+	</update>
+	
+	<select id="queryCommunitySel" resultType="map">
+	select comm_id, comm_name
+	from community 
+	where flag_delete = 0
+	order by comm_id asc
+	</select>
+	
+	<select id="queryApartmentType" resultType="map">
+	select a.id, a.`value`, a.sort, a.valid,
+	b.comm_id, b.comm_name
+	from apartment_type a
+	left join community b on a.comm_id = b.comm_id
+	where 1 = 1
+	<if test="comm_id != null and comm_id != ''">
+	and a.comm_id = #{comm_id}
+	</if>
+	<if test="value != null and value != ''">
+	and a.`value` like CONCAT('%', #{value}, '%')
+	</if>
+	order by a.id desc
+	limit #{start}, #{length}
+	</select>
+	
+	<select id="queryApartmentTypeCnt" resultType="int">
+	select count(*)
+	from apartment_type a
+	left join community b on a.comm_id = b.comm_id
+	where 1 = 1
+	<if test="comm_id != null and comm_id != ''">
+	and a.comm_id = #{comm_id}
+	</if>
+	<if test="value != null and value != ''">
+	and a.`value` like CONCAT('%', #{value}, '%')
+	</if>
+	order by a.id desc
+	</select>
+	
+	<insert id="addApartmentType">
+	insert into apartment_type (value, sort, valid, comm_id) values 
+	(#{value}, #{sort}, #{valid}, #{comm_id})
+	</insert>
+	
+	<select id="getApartmentType" resultType="map">
+	select id, value, sort, valid, comm_id
+	from apartment_type
+	where id = #{id}
+	</select>
+	
+	<update id="updApartmentType">
+	update apartment_type set value = #{value}, sort = #{sort}, valid = #{valid}, comm_id = #{comm_id}
+	where id = #{id}
+	</update>
+	
+	<delete id="delApartmentType">
+	delete from apartment_type where id = #{id}
+	</delete>
+	
+	<select id="queryApartmentArea" resultType="map">
+	select a.id, a.`value`, a.sort, a.valid,
+	b.comm_id, b.comm_name
+	from apartment_area a
+	left join community b on a.comm_id = b.comm_id
+	where 1 = 1
+	<if test="comm_id != null and comm_id != ''">
+	and a.comm_id = #{comm_id}
+	</if>
+	<if test="value != null and value != ''">
+	and a.`value` like CONCAT('%', #{value}, '%')
+	</if>
+	order by a.id desc
+	limit #{start}, #{length}
+	</select>
+	
+	<select id="queryApartmentAreaCnt" resultType="int">
+	select count(*)
+	from apartment_area a
+	left join community b on a.comm_id = b.comm_id
+	where 1 = 1
+	<if test="comm_id != null and comm_id != ''">
+	and a.comm_id = #{comm_id}
+	</if>
+	<if test="value != null and value != ''">
+	and a.`value` like CONCAT('%', #{value}, '%')
+	</if>
+	order by a.id desc
+	</select>
+	
+	<insert id="addApartmentArea">
+	insert into apartment_area (value, sort, valid, comm_id) values 
+	(#{value}, #{sort}, #{valid}, #{comm_id})
+	</insert>
+	
+	<select id="getApartmentArea" resultType="map">
+	select id, value, sort, valid, comm_id
+	from apartment_area
+	where id = #{id}
+	</select>
+	
+	<update id="updApartmentArea">
+	update apartment_area set value = #{value}, sort = #{sort}, valid = #{valid}, comm_id = #{comm_id}
+	where id = #{id}
+	</update>
+	
+	<delete id="delApartmentArea">
+	delete from apartment_area where id = #{id}
+	</delete>
+	
+	<select id="queryApartmentHouseType" resultType="map">
+	select a.id, a.room, a.hall, a.sort, a.valid,
+	b.comm_id, b.comm_name
+	from apartment_house_type a
+	left join community b on a.comm_id = b.comm_id
+	where 1 = 1
+	<if test="comm_id != null and comm_id != ''">
+	and a.comm_id = #{comm_id}
+	</if>
+	<if test="room != null and room != ''">
+	and a.room = #{room}
+	</if>
+	<if test="hall != null and hall != ''">
+	and a.hall = #{hall}
+	</if>
+	order by a.id desc
+	limit #{start}, #{length}
+	</select>
+	
+	<select id="queryApartmentHouseTypeCnt" resultType="int">
+	select count(*)
+	from apartment_house_type a
+	left join community b on a.comm_id = b.comm_id
+	where 1 = 1
+	<if test="comm_id != null and comm_id != ''">
+	and a.comm_id = #{comm_id}
+	</if>
+	<if test="room != null and room != ''">
+	and a.room = #{room}
+	</if>
+	<if test="hall != null and hall != ''">
+	and a.hall = #{hall}
+	</if>
+	order by a.id desc
+	</select>
+	
+	<insert id="addApartmentHouseType">
+	insert into apartment_house_type (room, hall, sort, valid, comm_id) values 
+	(#{room}, #{hall}, #{sort}, #{valid}, #{comm_id})
+	</insert>
+	
+	<select id="getApartmentHouseType" resultType="map">
+	select id, room, hall, sort, valid, comm_id
+	from apartment_house_type
+	where id = #{id}
+	</select>
+	
+	<update id="updApartmentHouseType">
+	update apartment_house_type set room = #{room}, hall = #{hall}, sort = #{sort}, 
+	valid = #{valid}, comm_id = #{comm_id}
+	where id = #{id}
+	</update>
+	
+	<delete id="delApartmentHouseType">
+	delete from apartment_house_type where id = #{id}
+	</delete>
+	
+	<select id="queryApartmentTypeSel" resultType="map">
+	select id, value
+	from apartment_type
+	where valid = 1
+	order by sort asc
+	</select>
+	
+	<select id="queryApartmentAreaSel" resultType="map">
+	select id, value
+	from apartment_area
+	where valid = 1
+	order by sort asc
+	</select>
+	
+	<select id="queryApartmentHouseTypeSel" resultType="map">
+	select id, room, hall
+	from apartment_house_type
+	where valid = 1
+	order by sort asc
+	</select>
+	
+	<select id="queryModelSel" resultType="map">
+	select model_id, model_name
+	from model
+	where flag_delete = 0
+	order by model_id asc
+	</select>
+	
+	<select id="queryLayoutSel" resultType="map">
+	select layout_id, layout_name
+	from layout
+	where flag_delete = 0
+	order by layout_id asc
+	</select>
+	
+	<select id="queryEnvironmentSel" resultType="map">
+	select envi_id, envi_name
+	from environment
+	where flag_delete = 0
+	order by envi_id asc
+	</select>
+	
+	<select id="queryApartment" resultType="map">
+	select a.apar_id, a.apar_name, a.comm_id, a.building_no, 
+	a.unit_no, a.floor_no, a.apar_no, a.apar_type_id, 
+	a.apar_house_type_id, a.area_id, a.area, a.sell_price, 
+	a.unit_price, date_format(a.open_day, '%Y-%m-%d') open_day,
+	date_format(a.net_day, '%Y-%m-%d') net_day, a.year,
+	b.comm_name, c.`value` apar_type, d.`value` apar_area,
+	e.room, e.hall, a.apar_status
+	from apartment a
+	left join community b on a.comm_id = b.comm_id
+	left join apartment_type c on a.apar_type_id = c.id
+	left join apartment_area d on a.area_id = d.id
+	left join apartment_house_type e on a.apar_house_type_id = e.id
+	where a.flag_delete = 0
+	<if test="apar_type_id != null and apar_type_id != ''">
+	and a.apar_type_id = #{apar_type_id}
+	</if>
+	<if test="apar_house_type_id != null and apar_house_type_id != ''">
+	and a.apar_house_type_id = #{apar_house_type_id}
+	</if>
+	<if test="area_id != null and area_id != ''">
+	and a.area_id = #{area_id}
+	</if>
+	<if test="apar_name != null and apar_name != ''">
+	and a.apar_name like CONCAT('%', #{apar_name}, '%')
+	</if>
+	order by a.apar_id desc
+	limit #{start}, #{length}
+	</select>
+	
+	<select id="queryApartmentCnt" resultType="int">
+	select count(*)
+	from apartment a
+	left join community b on a.comm_id = b.comm_id
+	left join apartment_type c on a.apar_type_id = c.id
+	left join apartment_area d on a.area_id = d.id
+	left join apartment_house_type e on a.apar_house_type_id = e.id
+	where a.flag_delete = 0
+	<if test="apar_type_id != null and apar_type_id != ''">
+	and a.apar_type_id = #{apar_type_id}
+	</if>
+	<if test="apar_house_type_id != null and apar_house_type_id != ''">
+	and a.apar_house_type_id = #{apar_house_type_id}
+	</if>
+	<if test="area_id != null and area_id != ''">
+	and a.area_id = #{area_id}
+	</if>
+	<if test="apar_name != null and apar_name != ''">
+	and a.apar_name like CONCAT('%', #{apar_name}, '%')
+	</if>
+	order by a.apar_id desc
+	</select>
+	
+	<insert id="addApartment">
+	insert into apartment (comm_id, model_id, layout_id, envi_id, apar_house_type_id, apar_type_id, 
+	area_id, apar_name, building_no, unit_no, floor_no, apar_no, area, floor_num, year, unit_price,
+	sell_price, turned, decorate, apar_status, flag_delete, open_day, net_day, net_day7, create_time, list_img)
+	values 
+	(#{comm_id}, #{model_id}, #{layout_id}, #{envi_id}, #{apar_house_type_id}, #{apar_type_id}, 
+	#{area_id}, #{apar_name}, #{building_no}, #{unit_no}, #{floor_no}, #{apar_no}, #{area}, 
+	#{floor_num}, #{year}, #{unit_price}, #{sell_price}, #{turned}, #{decorate}, '0', 
+	0, #{open_day}, #{net_day}, #{net_day7}, #{create_time}, #{list_img})
+	</insert>
+	
+	<select id="getApartment" resultType="map">
+	select apar_id, comm_id, model_id, layout_id, envi_id, user_id, apar_house_type_id, apar_type_id,
+	area_id, apar_name, building_no, unit_no, floor_no, apar_no, area, floor_num, year, unit_price,
+	transfer_price, sell_price, deal_price, turned, decorate, apar_status, flag_delete, 
+	date_format(open_day, '%Y-%m-%d') open_day, date_format(net_day, '%Y-%m-%d') net_day, 
+	net_day7, create_time, list_img
+	from apartment
+	where apar_id = #{apar_id}
+	</select>
+	
+	<update id="updApartment">
+	update apartment set comm_id = #{comm_id}, model_id = #{model_id}, layout_id = #{layout_id}, 
+	envi_id = #{envi_id}, apar_house_type_id = #{apar_house_type_id}, apar_type_id = #{apar_type_id},
+	area_id = #{area_id}, apar_name = #{apar_name}, building_no = #{building_no}, unit_no = #{unit_no},
+	floor_no = #{floor_no}, apar_no = #{apar_no}, area = #{area}, floor_num = #{floor_num},
+	year = #{year}, unit_price = #{unit_price}, sell_price = #{sell_price}, turned = #{turned},
+	decorate = #{decorate}, open_day = #{open_day}, net_day = #{net_day}, net_day7 = #{net_day7},
+	list_img = #{list_img}
+	where apar_id = #{apar_id}
+	</update>
+	
+	<update id="delApartment">
+	update apartment set flag_delete = 1
+	where apar_id = #{apar_id}
+	</update>
+	
+	<select id="queryModel" resultType="map">
+	select a.model_id, a.model_name, a.model_pic1, a.model_pic2,
+	a.model_pic3, a.model_pic4, a.model_pic5, a.create_time, a.flag_delete,
+	b.comm_id, b.comm_name
+	from model a
+	left join community b on a.comm_id = b.comm_id
+	where a.flag_delete = 0
+	<if test="comm_id != null and comm_id != ''">
+	and a.comm_id = #{comm_id}
+	</if>
+	<if test="model_name != null and model_name != ''">
+	and a.model_name like CONCAT('%', #{model_name}, '%')
+	</if>
+	order by a.model_id desc
+	limit #{start}, #{length}
+	</select>
+	
+	<select id="queryModelCnt" resultType="int">
+	select count(*)
+	from model a
+	left join community b on a.comm_id = b.comm_id
+	where a.flag_delete = 0
+	<if test="comm_id != null and comm_id != ''">
+	and a.comm_id = #{comm_id}
+	</if>
+	<if test="model_name != null and model_name != ''">
+	and a.model_name like CONCAT('%', #{model_name}, '%')
+	</if>
+	order by a.model_id desc
+	</select>
+	
+	<insert id="addModel">
+	insert into model (model_name, model_pic1, model_pic2, model_pic3, model_pic4,
+	model_pic5, create_time, flag_delete, comm_id) values 
+	(#{model_name}, #{model_pic1}, #{model_pic2}, #{model_pic3}, #{model_pic4},
+	#{model_pic5}, #{create_time}, 0, #{comm_id})
+	</insert>
+	
+	<select id="getModel" resultType="map">
+	select model_id, model_name, model_pic1, model_pic2, model_pic3,
+	model_pic4, model_pic5, create_time, flag_delete, comm_id
+	from model
+	where model_id = #{model_id}
+	</select>
+	
+	<update id="updModel">
+	update model set comm_id = #{comm_id}, model_name = #{model_name}, model_pic1 = #{model_pic1}, 
+	model_pic2 = #{model_pic2}, model_pic3 = #{model_pic3}, model_pic4 = #{model_pic4}, 
+	model_pic5 = #{model_pic5}
+	where model_id = #{model_id}
+	</update>
+	
+	<update id="delModel">
+	update model set flag_delete = 1
+	where model_id = #{model_id}
+	</update>
+	
+	<select id="queryLayout" resultType="map">
+	select a.layout_id, a.layout_name, a.layout_pic1, a.layout_pic2,
+	a.layout_pic3, a.layout_pic4, a.layout_pic5, a.create_time, a.flag_delete,
+	b.comm_id, b.comm_name
+	from layout a
+	left join community b on a.comm_id = b.comm_id
+	where a.flag_delete = 0
+	<if test="comm_id != null and comm_id != ''">
+	and a.comm_id = #{comm_id}
+	</if>
+	<if test="layout_name != null and layout_name != ''">
+	and a.layout_name like CONCAT('%', #{layout_name}, '%')
+	</if>
+	order by a.layout_id desc
+	limit #{start}, #{length}
+	</select>
+	
+	<select id="queryLayoutCnt" resultType="int">
+	select count(*)
+	from layout a
+	left join community b on a.comm_id = b.comm_id
+	where a.flag_delete = 0
+	<if test="comm_id != null and comm_id != ''">
+	and a.comm_id = #{comm_id}
+	</if>
+	<if test="layout_name != null and layout_name != ''">
+	and a.layout_name like CONCAT('%', #{layout_name}, '%')
+	</if>
+	order by a.layout_id desc
+	</select>
+	
+	<insert id="addLayout">
+	insert into layout (layout_name, layout_pic1, layout_pic2, layout_pic3, layout_pic4,
+	layout_pic5, create_time, flag_delete, comm_id) values 
+	(#{layout_name}, #{layout_pic1}, #{layout_pic2}, #{layout_pic3}, #{layout_pic4},
+	#{layout_pic5}, #{create_time}, 0, #{comm_id})
+	</insert>
+	
+	<select id="getLayout" resultType="map">
+	select layout_id, layout_name, layout_pic1, layout_pic2, layout_pic3,
+	layout_pic4, layout_pic5, create_time, flag_delete, comm_id
+	from layout
+	where layout_id = #{layout_id}
+	</select>
+	
+	<update id="updLayout">
+	update layout set comm_id = #{comm_id}, layout_name = #{layout_name}, layout_pic1 = #{layout_pic1}, 
+	layout_pic2 = #{layout_pic2}, layout_pic3 = #{layout_pic3}, layout_pic4 = #{layout_pic4}, 
+	layout_pic5 = #{layout_pic5}
+	where layout_id = #{layout_id}
+	</update>
+	
+	<update id="delLayout">
+	update layout set flag_delete = 1
+	where layout_id = #{layout_id}
+	</update>
+	
+	<select id="queryEnvironment" resultType="map">
+	select a.envi_id, a.envi_name, a.envi_pic1, a.envi_pic2,
+	a.envi_pic3, a.envi_pic4, a.envi_pic5, a.create_time, a.flag_delete,
+	b.comm_id, b.comm_name
+	from environment a
+	left join community b on a.comm_id = b.comm_id
+	where a.flag_delete = 0
+	<if test="comm_id != null and comm_id != ''">
+	and a.comm_id = #{comm_id}
+	</if>
+	<if test="envi_name != null and envi_name != ''">
+	and a.envi_name like CONCAT('%', #{envi_name}, '%')
+	</if>
+	order by a.envi_id desc
+	limit #{start}, #{length}
+	</select>
+	
+	<select id="queryEnvironmentCnt" resultType="int">
+	select count(*)
+	from environment a
+	left join community b on a.comm_id = b.comm_id
+	where a.flag_delete = 0
+	<if test="comm_id != null and comm_id != ''">
+	and a.comm_id = #{comm_id}
+	</if>
+	<if test="envi_name != null and envi_name != ''">
+	and a.envi_name like CONCAT('%', #{envi_name}, '%')
+	</if>
+	order by a.envi_id desc
+	</select>
+	
+	<insert id="addEnvironment">
+	insert into environment (envi_name, envi_pic1, envi_pic2, envi_pic3, envi_pic4,
+	envi_pic5, create_time, flag_delete, comm_id) values 
+	(#{envi_name}, #{envi_pic1}, #{envi_pic2}, #{envi_pic3}, #{envi_pic4},
+	#{envi_pic5}, #{create_time}, 0, #{comm_id})
+	</insert>
+	
+	<select id="getEnvironment" resultType="map">
+	select envi_id, envi_name, envi_pic1, envi_pic2, envi_pic3,
+	envi_pic4, envi_pic5, create_time, flag_delete, comm_id
+	from environment
+	where envi_id = #{envi_id}
+	</select>
+	
+	<update id="updEnvironment">
+	update environment set comm_id = #{comm_id}, envi_name = #{envi_name}, envi_pic1 = #{envi_pic1}, 
+	envi_pic2 = #{envi_pic2}, envi_pic3 = #{envi_pic3}, envi_pic4 = #{envi_pic4}, 
+	envi_pic5 = #{envi_pic5}
+	where envi_id = #{envi_id}
+	</update>
+	
+	<update id="delEnvironment">
+	update environment set flag_delete = 1
+	where envi_id = #{envi_id}
+	</update>
+	
+	<select id="queryHousePrice" resultType="map">
+	select hp_id, price_type, price,
+	date_format(publish_date, '%Y-%m-%d') publish_date, create_time
+	from house_price 
+	where 1 = 1
+	<if test="price_type != null and price_type != ''">
+	and price_type = #{price_type} 
+	</if>
+	<if test="dateFrom != null and dateFrom != ''">
+	and publish_date &gt;= #{dateFrom} 
+	</if>
+	<if test="dateTo != null and dateTo != ''">
+	and publish_date &lt;= #{dateTo} 
+	</if>
+	order by publish_date desc, price_type asc
+	limit #{start}, #{length}
+	</select>
+	
+	<select id="queryHousePriceCnt" resultType="int">
+	select count(*)
+	from house_price 
+	where 1 = 1
+	<if test="price_type != null and price_type != ''">
+	and price_type = #{price_type} 
+	</if>
+	<if test="dateFrom != null and dateFrom != ''">
+	and publish_date &gt;= #{dateFrom} 
+	</if>
+	<if test="dateTo != null and dateTo != ''">
+	and publish_date &lt;= #{dateTo} 
+	</if>
+	order by publish_date desc, price_type asc
+	</select>
+	
+	<insert id="addHousePrice">
+	insert into house_price (price_type, price, publish_date, create_time) values 
+	(#{price_type}, #{price}, #{publish_date}, #{create_time})
+	</insert>
+	
+	<select id="getHousePrice" resultType="map">
+	select hp_id, price_type, price, date_format(publish_date, '%Y-%m-%d') publish_date, create_time
+	from house_price
+	where hp_id = #{hp_id}
+	</select>
+	
+	<update id="updHousePrice">
+	update house_price set price_type = #{price_type}, price = #{price}, publish_date = #{publish_date}
+	where hp_id = #{hp_id}
+	</update>
+	
+	<delete id="delHousePrice">
+	delete from house_price
+	where hp_id = #{hp_id}
+	</delete>
+
+	<!-- 后台设置房源的拥有者 -->
+	<update id="updateApartmentUserIdById">
+		UPDATE apartment SET user_id = #{user_id} WHERE apar_id = #{apartment_id}
+	</update>
+
+	<!-- 修改房源状态 -->
+	<update id="updateAparStatusIdById">
+		UPDATE apartment SET apar_status = #{apar_status} WHERE apar_id = #{apar_id}
+	</update>
+
+
+</mapper>
+
+
+
+
+
+
+
+
+

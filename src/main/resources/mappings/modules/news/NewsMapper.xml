@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.etnlgravtnl.modules.dao.news.NewsDao" >
+
+    <select id="getAllList" resultType="map">
+        select id, title,detail,publish,publish_date,info
+        from news
+        <if test="title != null and title != ''">
+            where   title like CONCAT('%', #{title}, '%')
+        </if>
+        order by id desc
+        limit #{start}, #{length}
+    </select>
+
+    <select id="countList" resultType="int">
+        select count(*)
+        from news
+        <if test="title != null and title != ''">
+            where title like CONCAT('%', #{title}, '%')
+        </if>
+    </select>
+
+    <insert id="save">
+        insert into news
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="title != null" >
+        title,
+        </if>
+        <if test="info != null" >
+        info,
+        </if>
+        <if test="detail != null" >
+        detail,
+        </if>
+        <if test="publish != null" >
+        publish,
+        </if>
+        <if test="publishDate != null" >
+        publish_date
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+        </if>
+        <if test="info != null" >
+        #{info,jdbcType=VARCHAR},
+        </if>
+        <if test="detail != null" >
+        #{detail,jdbcType=VARCHAR},
+        </if>
+        <if test="publish != null" >
+        #{publish,jdbcType=BIT},
+        </if>
+        <if test="publishDate != null" >
+        #{publishDate,jdbcType=TIMESTAMP}
+        </if>
+        </trim>
+    </insert>
+
+    <select id="get" resultType="map">
+        select   id, title,detail,publish,publish_date,info
+        from news
+        where id  = #{id,jdbcType=INTEGER}
+    </select>
+
+    <update id="update">
+        update news
+        <set >
+            <if test="title != null" >
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="info != null" >
+                info = #{info,jdbcType=VARCHAR},
+            </if>
+            <if test="detail != null" >
+                detail = #{detail,jdbcType=VARCHAR},
+            </if>
+            <if test="publish != null" >
+                publish = #{publish,jdbcType=BIT},
+            </if>
+            <if test="publishDate != null" >
+                publish_date = #{publishDate,jdbcType=TIMESTAMP}
+            </if>
+        </set>
+        where ID = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="del">
+       delete from news where id = #{id}
+    </select>
+
+</mapper>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlrewrite>
+    <rule>
+
+        <from>/page/(.*)/(.*).html</from>
+        <to>/WEB-INF/views/modules/$1/$2.jsp</to>
+
+        <from>/page/index.html</from>
+        <to>/WEB-INF/views/index.jsp</to>
+
+
+
+    </rule>
+</urlrewrite>

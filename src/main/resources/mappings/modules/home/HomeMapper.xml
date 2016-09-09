@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.etnlgravtnl.modules.dao.home.HomeDao" >
+	<select id="queryBanner" resultType="map">
+	select banner_id, banner_title, banner_img, sort, valid, flag_delete, create_time
+	from banner
+	where flag_delete = 0
+	<if test="banner_title != null and banner_title != ''">
+	and banner_title like CONCAT('%', #{banner_title}, '%')
+	</if>
+	order by banner_id desc
+	limit #{start}, #{length}
+	</select>
+	
+	<select id="queryBannerCnt" resultType="int">
+	select count(*)
+	from banner
+	where flag_delete = 0
+	<if test="banner_title != null and banner_title != ''">
+	and banner_title like CONCAT('%', #{banner_title}, '%')
+	</if>
+	order by banner_id desc
+	</select>
+	
+	<insert id="addBanner">
+	insert into banner (banner_title, banner_img, sort, valid, flag_delete, create_time) values 
+	(#{banner_title}, #{banner_img}, #{sort}, #{valid}, 0, #{create_time})
+	</insert>
+	
+	<select id="getBanner" resultType="map">
+	select banner_id, banner_title, banner_img, sort, valid, flag_delete, create_time
+	from banner
+	where banner_id = #{banner_id}
+	</select>
+	
+	<update id="updBanner">
+	update banner set banner_title = #{banner_title}, banner_img = #{banner_img}, sort = #{sort}, valid = #{valid}
+	where banner_id = #{banner_id}
+	</update>
+	
+	<update id="delBanner">
+	update banner set flag_delete = 1
+	where banner_id = #{banner_id}
+	</update>
+	
+	<select id="queryIntroduce" resultType="map">
+	select intr_id, intr_title, introduce, img_small, img_big, sort, valid, flag_delete, create_time
+	from introduce
+	where flag_delete = 0
+	<if test="intr_title != null and intr_title != ''">
+	and intr_title like CONCAT('%', #{intr_title}, '%')
+	</if>
+	order by intr_id desc
+	limit #{start}, #{length}
+	</select>
+	
+	<select id="queryIntroduceCnt" resultType="int">
+	select count(*)
+	from introduce
+	where flag_delete = 0
+	<if test="intr_title != null and intr_title != ''">
+	and intr_title like CONCAT('%', #{intr_title}, '%')
+	</if>
+	order by intr_id desc
+	</select>
+	
+	<insert id="addIntroduce">
+	insert into introduce (intr_title, introduce, img_small, img_big, sort, valid, flag_delete, create_time) values 
+	(#{intr_title}, #{introduce}, #{img_small}, #{img_big}, #{sort}, #{valid}, 0, #{create_time})
+	</insert>
+	
+	<select id="getIntroduce" resultType="map">
+	select intr_id, intr_title, introduce, img_small, img_big, sort, valid, flag_delete, create_time
+	from introduce
+	where intr_id = #{intr_id}
+	</select>
+	
+	<update id="updIntroduce">
+	update introduce set intr_title = #{intr_title}, introduce = #{introduce}, img_small = #{img_small},
+	img_big = #{img_big}, sort = #{sort}, valid = #{valid}
+	where intr_id = #{intr_id}
+	</update>
+	
+	<update id="delIntroduce">
+	update introduce set flag_delete = 1
+	where intr_id = #{intr_id}
+	</update>
+	
+	<select id="queryLayoutRecommend" resultType="map">
+	select lr_id, layout_name1, layout_name2, area, room, hall, lr_desc, 
+	lr_img, sort, valid, flag_delete, create_time
+	from layout_recommend
+	where flag_delete = 0
+	<if test="layout_name1 != null and layout_name1 != ''">
+	and layout_name1 like CONCAT('%', #{layout_name1}, '%')
+	</if>
+	<if test="layout_name2 != null and layout_name2 != ''">
+	and layout_name2 like CONCAT('%', #{layout_name2}, '%')
+	</if>
+	order by lr_id desc
+	limit #{start}, #{length}
+	</select>
+	
+	<select id="queryLayoutRecommendCnt" resultType="int">
+	select count(*)
+	from layout_recommend
+	where flag_delete = 0
+	<if test="layout_name1 != null and layout_name1 != ''">
+	and layout_name1 like CONCAT('%', #{layout_name1}, '%')
+	</if>
+	<if test="layout_name2 != null and layout_name2 != ''">
+	and layout_name2 like CONCAT('%', #{layout_name2}, '%')
+	</if>
+	order by lr_id desc
+	</select>
+	
+	<insert id="addLayoutRecommend">
+	insert into layout_recommend (layout_name1, layout_name2, area, room, hall, lr_desc,
+	lr_img, sort, valid, flag_delete, create_time) values 
+	(#{layout_name1}, #{layout_name2}, #{area}, #{room}, #{hall}, #{lr_desc}, 
+	#{lr_img}, #{sort}, #{valid}, 0, #{create_time})
+	</insert>
+	
+	<select id="getLayoutRecommend" resultType="map">
+	select lr_id, layout_name1, layout_name2, area, room, hall, lr_desc, lr_img, 
+	sort, valid, flag_delete, create_time
+	from layout_recommend
+	where lr_id = #{lr_id}
+	</select>
+	
+	<update id="updLayoutRecommend">
+	update layout_recommend set layout_name1 = #{layout_name1}, layout_name2 = #{layout_name2}, 
+	area = #{area}, room = #{room}, hall = #{hall}, lr_desc = #{lr_desc}, 
+	lr_img = #{lr_img}, sort = #{sort}, valid = #{valid}
+	where lr_id = #{lr_id}
+	</update>
+	
+	<update id="delLayoutRecommend">
+	update layout_recommend set flag_delete = 1
+	where lr_id = #{lr_id}
+	</update>
+	
+	<select id="queryLayoutOverview" resultType="map">
+	select lo_id, lo_title, lo_desc, lo_img, sort, valid, flag_delete, create_time
+	from layout_overview
+	where flag_delete = 0
+	<if test="lo_title != null and lo_title != ''">
+	and lo_title like CONCAT('%', #{lo_title}, '%')
+	</if>
+	order by lo_id desc
+	limit #{start}, #{length}
+	</select>
+	
+	<select id="queryLayoutOverviewCnt" resultType="int">
+	select count(*)
+	from layout_overview
+	where flag_delete = 0
+	<if test="lo_title != null and lo_title != ''">
+	and lo_title like CONCAT('%', #{lo_title}, '%')
+	</if>
+	order by lo_id desc
+	</select>
+	
+	<insert id="addLayoutOverview">
+	insert into layout_overview (lo_title, lo_desc, lo_img, sort, valid, flag_delete, create_time) values 
+	(#{lo_title}, #{lo_desc}, #{lo_img}, #{sort}, #{valid}, 0, #{create_time})
+	</insert>
+	
+	<select id="getLayoutOverview" resultType="map">
+	select lo_id, lo_title, lo_desc, lo_img, sort, valid, flag_delete, create_time
+	from layout_overview
+	where lo_id = #{lo_id}
+	</select>
+	
+	<update id="updLayoutOverview">
+	update layout_overview set lo_title = #{lo_title}, lo_desc = #{lo_desc}, lo_img = #{lo_img}, 
+	sort = #{sort}, valid = #{valid}
+	where lo_id = #{lo_id}
+	</update>
+	
+	<update id="delLayoutOverview">
+	update layout_overview set flag_delete = 1
+	where lo_id = #{lo_id}
+	</update>
+	
+	<select id="queryInformation" resultType="map">
+	select info_id, info_title, info_desc, info_img, sort, valid, flag_delete, create_time
+	from information
+	where flag_delete = 0
+	<if test="info_title != null and info_title != ''">
+	and info_title like CONCAT('%', #{info_title}, '%')
+	</if>
+	order by info_id desc
+	limit #{start}, #{length}
+	</select>
+	
+	<select id="queryInformationCnt" resultType="int">
+	select count(*)
+	from information
+	where flag_delete = 0
+	<if test="info_title != null and info_title != ''">
+	and info_title like CONCAT('%', #{info_title}, '%')
+	</if>
+	order by info_id desc
+	</select>
+	
+	<insert id="addInformation">
+	insert into information (info_title, info_desc, info_img, sort, valid, flag_delete, create_time) values 
+	(#{info_title}, #{info_desc}, #{info_img}, #{sort}, #{valid}, 0, #{create_time})
+	</insert>
+	
+	<select id="getInformation" resultType="map">
+	select info_id, info_title, info_desc, info_img, sort, valid, flag_delete, create_time
+	from information
+	where info_id = #{info_id}
+	</select>
+	
+	<update id="updInformation">
+	update information set info_title = #{info_title}, info_desc = #{info_desc}, info_img = #{info_img}, 
+	sort = #{sort}, valid = #{valid}
+	where info_id = #{info_id}
+	</update>
+	
+	<update id="delInformation">
+	update information set flag_delete = 1
+	where info_id = #{info_id}
+	</update>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

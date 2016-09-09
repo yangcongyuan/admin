@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.milliongravity.system.dao.MessageTemplatesDao" >
+  <resultMap id="BaseResultMap" type="com.etnlgravtnl.system.entity.MessageTemplates" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="MSG_TPL_NAME" property="msgTplName" jdbcType="VARCHAR" />
+    <result column="MSG_TPL_CODE" property="msgTplCode" jdbcType="VARCHAR" />
+    <result column="MSG_TPL_CONTENT" property="msgTplContent" jdbcType="VARCHAR" />
+    <result column="MSG_TPL_TYPE" property="msgTplType" jdbcType="VARCHAR" />
+    <result column="MSG_TPL_DESC" property="msgTplDesc" jdbcType="VARCHAR" />
+    <result column="MSG_TPL_STATUS" property="msgTplStatus" jdbcType="VARCHAR" />
+    <result column="MAINTAINNER" property="maintainner" jdbcType="INTEGER" />
+    <result column="MAINTAINTIME" property="maintaintime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, MSG_TPL_NAME, MSG_TPL_CODE, MSG_TPL_CONTENT, MSG_TPL_TYPE, MSG_TPL_DESC, MSG_TPL_STATUS, 
+    MAINTAINNER, MAINTAINTIME
+  </sql>
+  <select id="get" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from message_templates
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="delete" parameterType="java.lang.Integer" >
+    delete from message_templates
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.etnlgravtnl.system.entity.MessageTemplates" >
+    insert into message_templates
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="msgTplName != null" >
+        MSG_TPL_NAME,
+      </if>
+      <if test="msgTplCode != null" >
+        MSG_TPL_CODE,
+      </if>
+      <if test="msgTplContent != null" >
+        MSG_TPL_CONTENT,
+      </if>
+      <if test="msgTplType != null" >
+        MSG_TPL_TYPE,
+      </if>
+      <if test="msgTplDesc != null" >
+        MSG_TPL_DESC,
+      </if>
+      <if test="msgTplStatus != null" >
+        MSG_TPL_STATUS,
+      </if>
+      <if test="maintainner != null" >
+        MAINTAINNER,
+      </if>
+      <if test="maintaintime != null" >
+        MAINTAINTIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="msgTplName != null" >
+        #{msgTplName,jdbcType=VARCHAR},
+      </if>
+      <if test="msgTplCode != null" >
+        #{msgTplCode,jdbcType=VARCHAR},
+      </if>
+      <if test="msgTplContent != null" >
+        #{msgTplContent,jdbcType=VARCHAR},
+      </if>
+      <if test="msgTplType != null" >
+        #{msgTplType,jdbcType=VARCHAR},
+      </if>
+      <if test="msgTplDesc != null" >
+        #{msgTplDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="msgTplStatus != null" >
+        #{msgTplStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="maintainner != null" >
+        #{maintainner,jdbcType=INTEGER},
+      </if>
+      <if test="maintaintime != null" >
+        #{maintaintime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.etnlgravtnl.system.entity.MessageTemplates" >
+    update message_templates
+    <set >
+      <if test="msgTplName != null" >
+        MSG_TPL_NAME = #{msgTplName,jdbcType=VARCHAR},
+      </if>
+      <if test="msgTplCode != null" >
+        MSG_TPL_CODE = #{msgTplCode,jdbcType=VARCHAR},
+      </if>
+      <if test="msgTplContent != null" >
+        MSG_TPL_CONTENT = #{msgTplContent,jdbcType=VARCHAR},
+      </if>
+      <if test="msgTplType != null" >
+        MSG_TPL_TYPE = #{msgTplType,jdbcType=VARCHAR},
+      </if>
+      <if test="msgTplDesc != null" >
+        MSG_TPL_DESC = #{msgTplDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="msgTplStatus != null" >
+        MSG_TPL_STATUS = #{msgTplStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="maintainner != null" >
+        MAINTAINNER = #{maintainner,jdbcType=INTEGER},
+      </if>
+      <if test="maintaintime != null" >
+        MAINTAINTIME = #{maintaintime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+
+</mapper>

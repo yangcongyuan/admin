@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<trees>
+    <treeDMLDBConfig>
+        <id>1</id>
+        <parentIdColumnName>pid</parentIdColumnName>
+        <selfIdColumnName>id</selfIdColumnName>
+        <tabname>treenodes</tabname>
+        <nodeNameColumnName>nodename</nodeNameColumnName>
+        <htmlNodes>
+            <htmlNode>
+                <level>1</level>
+                <htmlHeadText>
+                    &lt;li selfId=&quot;${selfId}&quot; parentId=&quot;${parentId}&quot; class=&quot;has-sub&quot;&gt;
+                        &lt;a href=&quot;javascript:;&quot;&gt;
+                            &lt;b class=&quot;caret pull-right&quot;&gt;&lt;/b&gt;
+                            &lt;i class=&quot;fa fa-align-left&quot;&gt;&lt;/i&gt;
+                            &lt;span&gt;${nodeName}&lt;/span&gt;
+                        &lt;/a&gt;
+                </htmlHeadText>
+                <htmlFootText>
+                        &lt;/ul&gt;
+                    &lt;/li&gt;
+                </htmlFootText>
+                <leafNodeText>
+                    &lt;b class=&quot;caret pull-right&quot;&gt;&lt;/b&gt;
+                </leafNodeText>
+
+            </htmlNode>
+            <htmlNode>
+                <level>2-100</level>
+                <htmlHeadText>
+                    &lt;li selfId=&quot;${selfId}&quot; parentId=&quot;${parentId}&quot; class=&quot;has-sub&quot;&gt;
+                        &lt;a href=&quot;${href}&quot;&gt;
+                            &lt;b class=&quot;caret pull-right&quot;&gt;&lt;/b&gt;
+                            ${nodeName}
+                        &lt;/a&gt;
+                    &lt;ul class=&quot;sub-menu&quot;&gt;
+                </htmlHeadText>
+                <htmlFootText>
+                        &lt;/ul&gt;
+                    &lt;/li&gt;
+                </htmlFootText>
+                <leafNodeText>
+                    &lt;b class=&quot;caret pull-right&quot;&gt;&lt;/b&gt;
+                </leafNodeText>
+            </htmlNode>
+        </htmlNodes>
+    </treeDMLDBConfig>
+    <treeDMLDBConfig>
+        <id>2</id>
+        <parentIdColumnName>pid</parentIdColumnName>
+        <selfIdColumnName>parent_id</selfIdColumnName>
+        <tabname>sys_menu</tabname>
+        <nodeNameColumnName>name</nodeNameColumnName>
+        <htmlNodes>
+            <htmlNode>
+                <level>1</level>
+                <htmlHeadText>
+                    &lt;li selfId=&quot;${selfId}&quot; parentId=&quot;${parentId}&quot; class=&quot;has-sub&quot;&gt;
+                    &lt;a href=&quot;javascript:;&quot;&gt;
+                    &lt;b class=&quot;caret pull-right&quot;&gt;&lt;/b&gt;
+                    &lt;i class=&quot;fa fa-align-left&quot;&gt;&lt;/i&gt;
+                    &lt;span&gt;${nodeName}&lt;/span&gt;
+                    &lt;/a&gt;
+                    &lt;ul class=&quot;sub-menu&quot;&gt;
+                </htmlHeadText>
+                <htmlFootText>
+                    &lt;/ul&gt;
+                    &lt;/li&gt;
+                </htmlFootText>
+                <leafNodeText>
+                    &lt;b class=&quot;caret pull-right&quot;&gt;&lt;/b&gt;
+                </leafNodeText>
+
+            </htmlNode>
+            <htmlNode>
+                <level>2-100</level>
+                <htmlHeadText>
+                    &lt;li selfId=&quot;${selfId}&quot; parentId=&quot;${parentId}&quot; class=&quot;has-sub&quot;&gt;
+                    &lt;a href=&quot;/qzw_admin${href}&quot;&gt;
+                    &lt;b class=&quot;caret pull-right&quot;&gt;&lt;/b&gt;
+                    ${nodeName}
+                    &lt;/a&gt;
+                    &lt;ul class=&quot;sub-menu&quot;&gt;
+                </htmlHeadText>
+                <htmlFootText>
+                    &lt;/ul&gt;
+                    &lt;/li&gt;
+                </htmlFootText>
+                <leafNodeText>
+                    &lt;b class=&quot;caret pull-right&quot;&gt;&lt;/b&gt;
+                </leafNodeText>
+            </htmlNode>
+        </htmlNodes>
+    </treeDMLDBConfig>
+</trees>

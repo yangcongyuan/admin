@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.etnlgravtnl.modules.dao.user.UserDao" >
+
+	<select id="getAllList" resultType="map">
+			SELECT
+			  u.`id`,
+			  u.`user_name`,
+			  u.`login_name`,
+			  u.`cellphone`
+			FROM user u
+			where u.valid = 1 and u.flag_delete = 0
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+

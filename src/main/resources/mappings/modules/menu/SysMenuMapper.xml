@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.etnlgravtnl.modules.dao.menu.SysMenuDao">
+
+    <select id="getMenu" resultType="map">
+    SELECT id,parent_id,parent_ids,name,sort,href,target,icon,is_show,permission,
+            create_by,date_format(create_date, '%Y-%m-%d') create_date,update_by,
+            date_format(update_date, '%Y-%m-%d') update_date,remarks,del_flag
+    FROM sys_menu
+    WHERE is_show=0
+    ORDER BY parent_id ASC
+    limit #{start}, #{length}
+    </select>
+
+    <select id="getMenuCount" resultType="int">
+    SELECT COUNT(*)
+    FROM sys_menu
+    WHERE is_show=0
+    </select>
+
+    <select id="selectById" resultType="map">
+        SELECT id,parent_id,parent_ids,name,sort,href,target,icon,is_show,permission,
+            create_by,date_format(create_date, '%Y-%m-%d') create_date,update_by,
+            date_format(update_date, '%Y-%m-%d') update_date,remarks,del_flag
+        FROM sys_menu
+        WHERE id=#{id}
+    </select>
+
+    <delete id="deleteById">
+        DELETE FROM sys_menu WHERE id=#{id}
+    </delete>
+
+    <!--<update id="deleteById">
+        UPDATE sys_menu
+        SET del_flag=1
+        WHERE id=#{id}
+    </update>-->
+
+    <update id="updateByPrimaryKey">
+      update sys_menu
+      set name = #{name},sort = #{sort},
+          href = #{href},update_by = #{update_by},update_date = #{update_date}
+      where id = #{id}
+    </update>
+
+
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO sys_menu(id,parent_id,name,sort,href,create_by,create_date,update_by,update_date)
+    VALUES(#{id},#{parent_id},#{name},#{sort},#{href},#{create_by},#{create_date},#{update_by},#{update_date})
+    </insert>
+
+    <insert id="insertRole">
+        INSERT INTO sys_role_menu(role_id,menu_id)
+        VALUES (#{role_id},#{menu_id})
+    </insert>
+
+    <select id="getSecondaryMenu" resultType="map">
+      SELECT id,parent_id,name
+      FROM sys_menu
+      WHERE parent_id=0
+    </select>
+
+
+</mapper>

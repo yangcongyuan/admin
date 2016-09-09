@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.etnlgravtnl.system.dao.AdminUserDao" >
+  <resultMap id="BaseResultMap" type="com.etnlgravtnl.system.entity.AdminUser" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="LOGIN_NAME" property="loginName" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+    <result column="USER_TYPE" property="userType" jdbcType="INTEGER" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="TIME_CREATE" property="timeCreate" jdbcType="TIMESTAMP" />
+    <result column="TIME_LAST_LOGIN" property="timeLastLogin" jdbcType="TIMESTAMP" />
+    <result column="TIME_LAST_LOGOUT" property="timeLastLogout" jdbcType="TIMESTAMP" />
+    <result column="PWD_REST" property="pwdRest" jdbcType="BIT" />
+    <result column="IS_AUTH" property="isAuth" jdbcType="BIT" />
+    <result column="IS_LOCKED" property="isLocked" jdbcType="BIT" />
+    <result column="EXPIRE_DATE" property="expireDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="treeNode" type="com.etnlgravtnl.common.tree.TreeNode">
+    <result column="parentId" property="parentId" jdbcType="VARCHAR" />
+    <result column="selfId" property="selfId" jdbcType="VARCHAR" />
+    <result column="nodeName" property="nodeName" jdbcType="VARCHAR" />
+
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, LOGIN_NAME, EMAIL, PASSWORD, USER_TYPE, PHONE, TIME_CREATE, TIME_LAST_LOGIN, 
+    TIME_LAST_LOGOUT, PWD_REST, IS_AUTH, IS_LOCKED, EXPIRE_DATE
+  </sql>
+  <select id="findRecords" parameterType="String" resultMap="treeNode">
+    ${value}
+  </select>
+  <sql id="base_where">
+    <where>
+      <if test="id!=null and id!=''" >
+        and id = #{id}
+      </if>
+      <if test="loginName!=null and loginName!=''" >
+        and LOGIN_NAME = #{loginName}
+      </if>
+      <if test="email!=null and email!=''" >
+        and EMAIL = #{email}
+      </if>
+      <if test="password!=null and password!=''" >
+        and PASSWORD = #{password}
+      </if>
+      <if test="userType!=null and userType!=''" >
+        and USER_TYPE = #{userType}
+      </if>
+      <if test="phone!=null and phone!=''" >
+        and PHONE = #{phone}
+      </if>
+      <if test="timeCreate!=null and timeCreate!=''" >
+        and TIME_CREATE = #{timeCreate}
+      </if>
+      <if test="timeLastLogin!=null and timeLastLogin!=''" >
+        and TIME_LAST_LOGIN = #{timeLastLogin}
+      </if>
+      <if test="timeLastLogout!=null and timeLastLogout!=''" >
+        and TIME_LAST_LOGOUT = #{timeLastLogout}
+      </if>
+      <if test="pwdRest!=null and pwdRest!=''" >
+        and PWD_REST = #{pwdRest}
+      </if>
+      <if test="isAuth!=null and isAuth!=''" >
+        and IS_AUTH = #{isAuth}
+      </if>
+      <if test="isLocked!=null and isLocked!=''" >
+        and IS_LOCKED = #{isLocked}
+      </if>
+      <if test="expireDate!=null and expireDate!=''" >
+        and EXPIRE_DATE = #{expireDate}
+      </if>
+
+    </where>
+  </sql>
+  <select id="get" resultMap="BaseResultMap" parameterType="com.etnlgravtnl.system.entity.AdminUser" >
+    select 
+    <include refid="Base_Column_List" />
+    from admin_user
+    <include refid="base_where"></include>
+  </select>
+  <delete id="delete" parameterType="java.lang.Integer" >
+    delete from admin_user
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.etnlgravtnl.system.entity.AdminUser" >
+    insert into admin_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="loginName != null" >
+        LOGIN_NAME,
+      </if>
+      <if test="email != null" >
+        EMAIL,
+      </if>
+      <if test="password != null" >
+        PASSWORD,
+      </if>
+      <if test="userType != null" >
+        USER_TYPE,
+      </if>
+      <if test="phone != null" >
+        PHONE,
+      </if>
+      <if test="timeCreate != null" >
+        TIME_CREATE,
+      </if>
+      <if test="timeLastLogin != null" >
+        TIME_LAST_LOGIN,
+      </if>
+      <if test="timeLastLogout != null" >
+        TIME_LAST_LOGOUT,
+      </if>
+      <if test="pwdRest != null" >
+        PWD_REST,
+      </if>
+      <if test="isAuth != null" >
+        IS_AUTH,
+      </if>
+      <if test="isLocked != null" >
+        IS_LOCKED,
+      </if>
+      <if test="expireDate != null" >
+        EXPIRE_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="loginName != null" >
+        #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        #{userType,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="timeCreate != null" >
+        #{timeCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="timeLastLogin != null" >
+        #{timeLastLogin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="timeLastLogout != null" >
+        #{timeLastLogout,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pwdRest != null" >
+        #{pwdRest,jdbcType=BIT},
+      </if>
+      <if test="isAuth != null" >
+        #{isAuth,jdbcType=BIT},
+      </if>
+      <if test="isLocked != null" >
+        #{isLocked,jdbcType=BIT},
+      </if>
+      <if test="expireDate != null" >
+        #{expireDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.etnlgravtnl.system.entity.AdminUser" >
+    update admin_user
+    <set >
+      <if test="loginName != null" >
+        LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        PASSWORD = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        USER_TYPE = #{userType,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null" >
+        PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="timeCreate != null" >
+        TIME_CREATE = #{timeCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="timeLastLogin != null" >
+        TIME_LAST_LOGIN = #{timeLastLogin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="timeLastLogout != null" >
+        TIME_LAST_LOGOUT = #{timeLastLogout,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pwdRest != null" >
+        PWD_REST = #{pwdRest,jdbcType=BIT},
+      </if>
+      <if test="isAuth != null" >
+        IS_AUTH = #{isAuth,jdbcType=BIT},
+      </if>
+      <if test="isLocked != null" >
+        IS_LOCKED = #{isLocked,jdbcType=BIT},
+      </if>
+      <if test="expireDate != null" >
+        EXPIRE_DATE = #{expireDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+
+</mapper>

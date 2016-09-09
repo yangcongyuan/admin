@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.etnlgravtnl.modules.dao.apartment.ApartmentSeckillDao" >
+
+	<select id="getListByPage" resultType="map">
+		SELECT
+		a.`apar_id`,
+		a.`apar_name`,
+		date_format(a.create_time, '%Y-%m-%d %H:%i:%S') create_time,
+		a.`apar_status`,
+		date_format(ask.`start_time`, '%Y-%m-%d %H:%i:%S') start_time
+		FROM
+		apartment a
+		LEFT JOIN apartment_seckill ask
+		ON a.`apar_id` = ask.`apartment_id`
+		WHERE (a.`apar_status` = 0 OR a.`apar_status` = 2) and a.flag_delete = 0
+		<if test="apar_type_id != null and apar_type_id != ''">
+			and a.apar_type_id = #{apar_type_id}
+		</if>
+		<if test="apar_house_type_id != null and apar_house_type_id != ''">
+			and a.apar_house_type_id = #{apar_house_type_id}
+		</if>
+		<if test="area_id != null and area_id != ''">
+			and a.area_id = #{area_id}
+		</if>
+		<if test="apar_name != null and apar_name != ''">
+			and a.apar_name like CONCAT('%', #{apar_name}, '%')
+		</if>
+		order by a.apar_id desc
+		limit #{start}, #{length}
+	</select>
+	<select id="countList" resultType="int">
+		SELECT
+		count(*)
+		FROM
+		apartment a
+		LEFT JOIN apartment_seckill ask
+		ON a.`apar_id` = ask.`apartment_id`
+		WHERE (a.`apar_status` = 2 OR a.`apar_status` = 0) and a.flag_delete = 0
+		<if test="apar_type_id != null and apar_type_id != ''">
+			and a.apar_type_id = #{apar_type_id}
+		</if>
+		<if test="apar_house_type_id != null and apar_house_type_id != ''">
+			and a.apar_house_type_id = #{apar_house_type_id}
+		</if>
+		<if test="area_id != null and area_id != ''">
+			and a.area_id = #{area_id}
+		</if>
+		<if test="apar_name != null and apar_name != ''">
+			and a.apar_name like CONCAT('%', #{apar_name}, '%')
+		</if>
+		order by a.apar_id desc
+	</select>
+	<select id="get" resultType="map">
+		SELECT
+		  a.`apar_id`,
+		  DATE_FORMAT(ask.`start_time`, '%Y-%m-%d %H:%i') start_time,
+		  DATE_FORMAT(ask.`end_time`, '%Y-%m-%d %H:%i') end_time,
+		  a.`user_id`
+		FROM
+		  apartment a LEFT JOIN
+		  apartment_seckill ask  ON a.`apar_id` = ask.`apartment_id`
+		 WHERE ask.`apartment_id` = #{apar_id}
+	</select>
+	<insert id="add">
+		insert into apartment_seckill (apartment_id, start_time, end_time)
+		values (#{apartment_id}, #{start_time}, #{end_time})
+	</insert>
+	<update id="edit">
+		update apartment_seckill
+		<set >
+			<if test="start_time != null" >
+				start_time = #{start_time},
+			</if>
+			<if test="end_time != null" >
+				end_time = #{end_time},
+			</if>
+		</set>
+		where apartment_id = #{apartment_id}
+	</update>
+	<!--<select id="del">-->
+		<!--delete from news where id = #{id}-->
+	<!--</select>-->
+
+</mapper>

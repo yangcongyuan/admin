@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.etnlgravtnl.modules.dao.help.HelpDao" >
+	<select id="queryQuestionType" resultType="map">
+	select type_id, type_name, sort, valid, flag_delete, create_time
+	from question_type
+	where flag_delete = 0
+	<if test="type_name != null and type_name != ''">
+	and type_name like CONCAT('%', #{type_name}, '%')
+	</if>
+	order by type_id desc
+	limit #{start}, #{length}
+	</select>
+	
+	<select id="queryQuestionTypeCnt" resultType="int">
+	select count(*)
+	from question_type
+	where flag_delete = 0
+	<if test="type_name != null and type_name != ''">
+	and type_name like CONCAT('%', #{type_name}, '%')
+	</if>
+	order by type_id desc
+	</select>
+	
+	<insert id="addQuestionType">
+	insert into question_type (type_name, sort, valid, flag_delete, create_time) values 
+	(#{type_name}, #{sort}, #{valid}, 0, #{create_time})
+	</insert>
+	
+	<select id="getQuestionType" resultType="map">
+	select type_id, type_name, sort, valid, flag_delete, create_time
+	from question_type
+	where type_id = #{type_id}
+	</select>
+	
+	<update id="updQuestionType">
+	update question_type set type_name = #{type_name}, sort = #{sort}, valid = #{valid}
+	where type_id = #{type_id}
+	</update>
+	
+	<update id="delQuestionType">
+	update question_type set flag_delete = 1
+	where type_id = #{type_id}
+	</update>
+	
+	<select id="queryQuestionTypeSel" resultType="map">
+	select type_id, type_name
+	from question_type 
+	where flag_delete = 0
+	and valid = 1
+	order by sort asc
+	</select>
+	
+	<select id="queryQuestion" resultType="map">
+	select a.ques_id, a.type_id, a.question, a.answer, a.valid, 
+	a.flag_delete, a.create_time, b.type_name
+	from question a
+	left join question_type b on a.type_id = b.type_id
+	where a.flag_delete = 0
+	<if test="type_id != null and type_id != ''">
+	and a.type_id = #{type_id}
+	</if>
+	<if test="question != null and question != ''">
+	and a.question like CONCAT('%', #{question}, '%')
+	</if>
+	order by a.ques_id desc
+	limit #{start}, #{length}
+	</select>
+	
+	<select id="queryQuestionCnt" resultType="int">
+	select count(*)
+	from question a
+	left join question_type b on a.type_id = b.type_id
+	where a.flag_delete = 0
+	<if test="type_id != null and type_id != ''">
+	and a.type_id = #{type_id}
+	</if>
+	<if test="question != null and question != ''">
+	and a.question like CONCAT('%', #{question}, '%')
+	</if>
+	order by a.ques_id desc
+	</select>
+	
+	<insert id="addQuestion">
+	insert into question (type_id, question, answer, valid, flag_delete, create_time) values 
+	(#{type_id}, #{question}, #{answer}, #{valid}, 0, #{create_time})
+	</insert>
+	
+	<select id="getQuestion" resultType="map">
+	select ques_id, type_id, question, answer, valid, flag_delete, create_time
+	from question
+	where ques_id = #{ques_id}
+	</select>
+	
+	<update id="updQuestion">
+	update question set type_id = #{type_id}, question = #{question}, answer = #{answer}, valid = #{valid}
+	where ques_id = #{ques_id}
+	</update>
+	
+	<update id="delQuestion">
+	update question set flag_delete = 1
+	where ques_id = #{ques_id}
+	</update>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

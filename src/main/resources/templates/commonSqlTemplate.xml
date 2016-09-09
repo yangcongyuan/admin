@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlTemplates>
+    <sqlTemplate>
+        <id>treeVariableWithAS</id>
+        <sql>
+			SELECT
+				DISTINCT
+				A.nodeName
+				,A.selfId
+				,A.parentId
+				,A.LEVEL
+			FROM (
+					SELECT
+						${selfIdColumnName} AS selfId
+						,${parentIdColumnName} AS parentId
+						,${nodeNameColumnName} AS nodeName
+
+						, @le:= IF (
+									   ${parentIdColumnName} = (SELECT DISTINCT  ${parentIdColumnName} AS ROOTID FROM ${tabname} WHERE ${parentIdColumnName} NOT IN (SELECT ${selfIdColumnName} FROM ${tabname}))
+									   ,0
+									   ,IF(
+											LOCATE( CONCAT('|',${parentIdColumnName},':'),@pathlevel) > 0
+											,SUBSTRING_INDEX(
+																SUBSTRING_INDEX(@pathlevel,CONCAT('|',${parentIdColumnName},':'),-1)
+																,'|'
+																,1
+															   ) +1
+											,@le+1
+											)
+									) level
+						, @pathlevel:= CONCAT(@pathlevel,'|',${selfIdColumnName},':', @le ,'|') pathlevel
+						, @pathnodes:= IF(
+											${parentIdColumnName} =(SELECT DISTINCT  ${parentIdColumnName} AS ROOTID FROM ${tabname} WHERE ${parentIdColumnName} NOT IN (SELECT ${selfIdColumnName} FROM ${tabname}))
+											,CONCAT(',',(SELECT DISTINCT  ${parentIdColumnName} AS ROOTID FROM ${tabname} WHERE ${parentIdColumnName} NOT IN (SELECT ${selfIdColumnName} FROM ${tabname})))
+											, CONCAT_WS(
+															','
+															, IF(
+																	LOCATE( CONCAT('|',${parentIdColumnName},':'),@pathall) > 0
+																	, SUBSTRING_INDEX( SUBSTRING_INDEX(@pathall,CONCAT('|',${parentIdColumnName},':'),-1)
+																	,'|',1)
+																	,@pathnodes
+																)
+															,${parentIdColumnName}
+														)
+										   )paths
+						<!--,@pathall:=CONCAT(@pathall,'|',${selfIdColumnName},':', @pathnodes ,'|') pathall-->
+							,@pathall:=CONCAT(@pathnodes,',',id,',' ) pathall
+					FROM ${tabname}
+						, (SELECT @le:=0,@pathlevel:='', @pathall:='',@pathnodes:='') vv
+					ORDER BY
+						${parentIdColumnName},${selfIdColumnName}
+			    ) AS A
+				JOIN (${initParentIdPoolSql}) B
+					ON A.PATHALL LIKE CONCAT('%,',B.ID,',%')
+        </sql>
+        <description></description>
+    </sqlTemplate>
+</sqlTemplates>

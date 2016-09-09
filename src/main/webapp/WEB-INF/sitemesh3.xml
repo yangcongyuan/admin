@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemesh>
+    <!-- 指明满足“/*”的页面，将被“/WEB-INF/views/decorators/decorator.html”所装饰 -->
+   <!-- <mapping decorator="/default-decorator.html"/>-->
+    <mapping path="/rest/*" decorator="/WEB-INF/views/layout/blank.jsp" />
+    <mapping path="/page/*" decorator="/WEB-INF/views/layout/blank.jsp" />
+    <mapping path="/WEB-INF/views/" decorator="/WEB-INF/views/layout/decorator.jsp" />
+
+
+    <!-- 指明满足“/exclude.jsp*”的页面，将被排除，不被装饰 -->
+    <mapping path="/rest/" exclue="true" />
+</sitemesh>
